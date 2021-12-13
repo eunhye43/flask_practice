@@ -5,44 +5,45 @@ from datetime import datetime
 class Database:
         def __init__(self):
             self.conn = sqlite3.connect("database.db")
+        # db 연결하고
 
-        # SQL query
+        # 다보여주기 select (fetchall)
         def get_question(self):
-            cur = self.conn.cursor()
-            cur.execute("select * from question")
+            cur = self.conn.cursor() # cursor생성하고
+            cur.execute("""
+                select * from question
+                """) # sql 쿼리 실행하고
             rows = cur.fetchall()
-            for row in rows:
-                print(rows)
             return rows
-            conn.close()
 
         def get_answer(self):
             cur = self.conn.cursor()
-            cur.execute("select * from answer")
+            cur.execute("""
+                select * from answer
+                """)
             rows = cur.fetchall()
-            for row in rows:
-                print(rows)
             return rows
-            conn.close()
         
-
+        # 데이터 삽입 insert (fetch안쓰고 commmit)
         def insert_question(self, subject, content):
             cur = self.conn.cursor()
             cur.execute(
-                "INSERT INTO question (subject, content) 
-                VALUES (?,?)"
+                """
+                INSERT INTO question (subject, content) 
+                VALUES (?,?)
+                """
             )
             self.conn.commit()
-            self.conn.close()
         
         def insert_answer(self, question_id, content):
             cur = self.conn.cursor()
             cur.execute(
-                "INSERT INTO answer (question_id, content) 
-                VALUES (?,?)"
+                """
+                INSERT INTO answer (question_id, content) 
+                VALUES (?,?)
+                """
             )
             self.conn.commit()
-            self.conn.close()
 
         def __del__(self):
             self.conn.close()
