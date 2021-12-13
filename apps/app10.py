@@ -37,13 +37,12 @@ def login_proc():
 
 
 @application.route('/user_only', methods=["GET"])
-@jwt_required
+@jwt_required()
 def user_only():
     cur_user = get_jwt_identity()
     if cur_user is None:
         return "User Only!"
-    else:
-        return "Hi," + cur_user
+    return "Hi," + cur_user
 
 if __name__ == '__main__':
     application.run(port = 5000,

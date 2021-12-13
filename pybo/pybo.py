@@ -1,11 +1,12 @@
-from flask import Flask
-from views import blue
+from flask import Blueprint, render_template, request, redirect, Flask
+from database import Database
 
-app = Flask(__name__)
-app.register_blueprint(blue.bp)
+pybo = Flask(__name__)
+bp = Blueprint('question', __name__)
 
-@app.route('/')
-def hello_world():
-    return "Hello, World!"
-
-app.run()
+@bp.route("/question")
+@bp.route("/question/<int:page>")
+def question_page():
+    db = Database()
+    question = db.get_question()
+    return render_template('question.html')
