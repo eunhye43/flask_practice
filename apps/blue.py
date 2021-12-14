@@ -28,3 +28,4 @@ def print_blue():
 @bp.route("/2")
 def print_blue2():
 	return "hello Blue!2 :)"
+>>>>>>> d67acb7b1fe04b4166da23e719800845e663fd49
