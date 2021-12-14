@@ -9,49 +9,48 @@ class Database:
         # SQL query
         def get_question(self):
             cur = self.conn.cursor()
-            cur.execute("select * from question")
+            cur.execute("""
+                    select * 
+                    from question
+                    """)
             rows = cur.fetchall()
-            for row in rows:
-                print(rows)
             return rows
             conn.close()
 
         def get_answer(self):
             cur = self.conn.cursor()
-            cur.execute("select * from answer")
+            cur.execute("""
+                    select * 
+                    from answer
+                    """)
             rows = cur.fetchall()
-            for row in rows:
-                print(rows)
             return rows
             conn.close()
         
 
         def insert_question(self, subject, content):
             cur = self.conn.cursor()
-            cur.execute(
-                "INSERT INTO question (subject, content) 
-                VALUES (?,?)"
-            )
+            cur.execute("""
+                INSERT INTO question 
+                (id, subject, content) 
+                VALUES (?,?,?)
+                """)
             self.conn.commit()
             self.conn.close()
         
         def insert_answer(self, question_id, content):
             cur = self.conn.cursor()
-            cur.execute(
-                "INSERT INTO answer (question_id, content) 
-                VALUES (?,?)"
-            )
+            cur.execute("""
+                INSERT INTO answer 
+                (id, question_id, content) 
+                VALUES (?,?,?)
+                """)
             self.conn.commit()
             self.conn.close()
 
         def __del__(self):
             self.conn.close()
         
-# rows = cur.fetchall()
-# for row in rows:
-#     print(row)
-    
-# conn.close()
 
 # DB_PATH = "./database.db"
 
