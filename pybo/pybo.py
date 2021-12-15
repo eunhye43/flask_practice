@@ -37,6 +37,7 @@ def aswner_post():
 
     return redirect('/answer')
 
+bp.run()
 # @app.route('/post', methods=['GET'])
 # def post_get():
 #     post = request.args.get('post')

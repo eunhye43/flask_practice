@@ -13,19 +13,7 @@ app.register_blueprint(blue.bp)
 
 @app.route('/')
 def hello_world():
-    return "Hello, World!"
-
-@app.route('/post', methods=['GET'])
-def post_get():
-    post = request.args.get('post')
-    print(post)
-    return jsonify({'result':'success', 'msg':'get 요청'})
-
-@app.route('/post', methods=['POST'])
-def post_post():
-    post = request.form['post']
-    print(post)
-    return jsonify({'result':'success', 'msg':'post 요청'})
+    return "Hello, World!!"
 
 if __name__ == '__main__':
     app.run(debug=True)
