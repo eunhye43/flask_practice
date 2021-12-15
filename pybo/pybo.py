@@ -7,13 +7,18 @@ bp = Blueprint('board', __name__, url_prefix='/board')
 def question_get():
     db = Database()
     question = db.get_question()
+    # print(question[1]) -> (2, 'sqlite3', '값넣기', None, None)
+    # question type은 list
     return question
+    # TypeError: The view function did not return a valid response. The return type must be a string, dict, tuple, Response instance, or WSGI callable, but it was a list.
 
 @bp.route("/answer", methods=['GET'])
 def answer_get():
     db = Database()
     answer = db.get_answer()
-    return answer
+    print(type(answer))
+    # 마찬가지
+    return "answer"
 
 @bp.route('/question/<int:id>', methods=['POST'])
 def question_post():
@@ -26,8 +31,8 @@ def question_post():
 
     return redirect('/question')
 
-@bp.route('/question/<int:question_id>', methods=['POST'])
-def aswner_post():
+@bp.route('/answer/<int:question_id>', methods=['POST'])
+def answer_post():
 
     question = request.form['question_id']
     content = request.form['content']
