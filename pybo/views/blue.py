@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-bp = Blueprint('blue', __name__, url_prefix='/')
+bp = Blueprint('blue', __name__, url_prefix='/blue')
 
 @bp.route('/hello')
 def hello_pybo():

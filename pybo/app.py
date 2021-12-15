@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 # from .models import Database
 from views import blue
+import pybo
 
 app = Flask(__name__)
 
@@ -9,7 +10,7 @@ app.config.update(
     SECRET_KEY = "super-secret",
 )
 
-app.register_blueprint(blue.bp)
+app.register_blueprint(pybo.bp)
 
 @app.route('/')
 def hello_world():
