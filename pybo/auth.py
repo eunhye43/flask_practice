@@ -9,7 +9,7 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 @bp.route("/signup", methods=['GET'])
 def get_user():
     db = Database()
-    user = db.get_user()
+    user = db.check_user_email()
     print(user)
     return {"answer":user}
 
@@ -21,11 +21,23 @@ def SignUp():
         password   = input_data['password']
 
         db = Database()
-        user = db.get_user()
+        print(email)
+        user = db.check_user_email(email)
+        print(user)
+        # conn = sqlite3.connect("database.db")
+        # cur = conn.cursor()
+        # query = """select email from user where email = ?"""
+        # cur.execute(query, (email))
+        # user = cur.fetchall()
+        # print("-----------------")
+        # print(user)
+        # print(type(user))
+        # print("-----------------")
+        # print(query)
+        # print(user['email'])
+        if email in user:
 
-        if email in user.email:
-            print(db.get_user)
-            print(email in db.get_user) #false
+            # print(email in db.get_user) #false
             # select query 구현 하나 더 
             return jsonify({'result':'failed', 'msg':'중복된 유저입니다!'})
     
