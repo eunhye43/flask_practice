@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 # from .models import Database
 from views import blue
-import pybo
+import pybo, auth
 
 app = Flask(__name__)
 
@@ -11,6 +11,7 @@ app.config.update(
 )
 
 app.register_blueprint(pybo.bp)
+app.register_blueprint(auth.bp)
 
 @app.route('/')
 def hello_world():

@@ -1,7 +1,8 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify
 from database import Database
+from flask_jwt_extended import *
 
-bp = Blueprint('board', __name__,url_prefix='/board')
+bp = Blueprint('board', __name__, url_prefix='/board')
 
 @bp.route("/question", methods=['GET'])
 def question_get():
