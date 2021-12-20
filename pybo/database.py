@@ -34,13 +34,6 @@ class Database:
         #             )
         #     self.conn.commit()
 
-        def get_user(self):
-            cur = self.conn.cursor()
-            cur.execute("""
-                    select * from user
-                    """)
-            rows = cur.fetchall()
-            return rows
         # 데이터 삽입 insert (fetch안쓰고 commmit)
         def insert_question(self, subject, content):
             cur = self.conn.cursor()
@@ -74,11 +67,10 @@ class Database:
         def check_user_email(self, email):
             cur = self.conn.cursor()
             cur.execute("""
-                select email from user where email = ?
-                """, (email))
+                    select * from user where email = ?
+                    """, (email,))
             row = cur.fetchone()
             return row
->>>>>>> f8faefeac2977d451953f360acf40c9f2e5440ed
 
         def SignUp(self, email, password):
             cur = self.conn.cursor()
@@ -88,7 +80,6 @@ class Database:
                 VALUES (?,?)
                 """, (email, password))
             self.conn.commit()
-            return {"message":"User_created_compeleted!"}
 
         def SignIn(self):
             cur = self.conn.cursor()

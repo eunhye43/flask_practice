@@ -9,9 +9,9 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 @bp.route("/signup", methods=['GET'])
 def get_user():
     db = Database()
-    user = db.check_user_email()
-    print(user)
-    return {"answer":user}
+    user = db.get_user()
+    # print(user)
+    return {"result":user}
 
 @bp.route('/signup', methods=['POST'])
 def SignUp():
@@ -21,26 +21,14 @@ def SignUp():
         password   = input_data['password']
 
         db = Database()
-        print(email)
+        # print(email)
         user = db.check_user_email(email)
-        print(user)
-        # conn = sqlite3.connect("database.db")
-        # cur = conn.cursor()
-        # query = """select email from user where email = ?"""
-        # cur.execute(query, (email))
-        # user = cur.fetchall()
-        # print("-----------------")
-        # print(user)
-        # print(type(user))
-        # print("-----------------")
-        # print(query)
-        # print(user['email'])
-        if email in user:
-
-            # print(email in db.get_user) #false
-            # select query 구현 하나 더 
+        print("------------")
+        print(user) # (None, 'tesw2e3@gmail.com', '$2b$12$by4p8.rwWA4CvTHmW6d/XOXtxDTgvyuqkKoJnClnESLHDf7h8VgLq')
+        print("------------")
+        if user != None and email in user:
             return jsonify({'result':'failed', 'msg':'중복된 유저입니다!'})
-    
+
         if password:
             password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 

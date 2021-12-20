@@ -13,13 +13,8 @@ app.config.update(
     SECRET_KEY = "super-secret",
 )
 
-<<<<<<< HEAD
-app.register_blueprint(pybo.bp)
-app.register_blueprint(auth.bp)
-=======
 app.register_blueprint(pybo_bp)
 app.register_blueprint(auth_bp)
->>>>>>> f8faefeac2977d451953f360acf40c9f2e5440ed
 
 @app.route('/')
 def hello_world():
