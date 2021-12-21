@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sqlite3
 from datetime import datetime
+from flask import jsonify
 
 class Database:
         def __init__(self):
@@ -70,6 +71,7 @@ class Database:
                     select * from user where email = ?
                     """, (email,))
             row = cur.fetchone()
+            # return jsonify({'user':row})
             return row
 
         def SignUp(self, email, password):
@@ -81,14 +83,14 @@ class Database:
                 """, (email, password))
             self.conn.commit()
 
-        def SignIn(self):
+        def SignIn(self, email, password):
             cur = self.conn.cursor()
             cur.execute(
                 """
-                SELECT * FROM user WHERE user_id = %s AND user_pw = %s
-                """)
-            account = cur.fetchone()
-            return {"result":account}
+                SELECT * FROM user WHERE email = ? AND password = ?
+                """, (email, password))
+            user = cur.fetchone()
+            return user
 
         def __del__(self):
             self.conn.close()

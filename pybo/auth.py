@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request, Flask, redirect
 from database import Database
+from flask_jwt_extended import create_access_token
 import bcrypt
 import sqlite3
 
@@ -10,6 +11,7 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 def get_user():
     db = Database()
     user = db.get_user()
+    print(user)
     # print(user)
     return {"result":user}
 
@@ -28,7 +30,7 @@ def SignUp():
         print("------------")
         if user != None and email in user:
             return jsonify({'result':'failed', 'msg':'중복된 유저입니다!'})
-
+    
         if password:
             password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
@@ -40,48 +42,25 @@ def SignUp():
 
 @bp.route('/signin', methods=['POST'])
 def SignIn():
+    try:
+        input_data = request.get_json()
+        email      = input_data['email']
+        password   = input_data['password']
+        # password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+        
+        print(email, password)
+        db = Database()
+        login = db.SignIn(email, password)
+        print("---------------------")
+        print(login[1])
+        print("---------------------")
+        
+        if email in login[1] and password in login[2]:
+            return jsonify({"message" : "success", 
+                        "access_token" : create_access_token(identity = email, expires_delta = False)})
+    except:
+        return jsonify({"message" : "Invalid_user"})
 
-    input_data = request.get_json()
-
-    db = Database()
-    login = db.SignIn()
-
-    admin_id = "qwer"
-    admin_pw = 1234
-
-    user_id    = input_data['user_id']
-    user_pw    = input_data['user_pw']
-    print(user_id, user_pw)
-    if user_id == admin_id and user_pw == admin_pw:
-        return jsonify({"message" : "success", 
-                    "access_token" : create_access_token(identity = user_id, expires_delta = False)})
-    
-    return jsonify({"message" : "Invalid_user"})
-
-    # def question_get():
-    # db = Database()
-    # question = db.get_question()
-    # # print(question[1]) -> (2, 'sqlite3', '값넣기', None, None)
-    # # question type은 list
-    # print(question)
-    # return {'question':question}
-    #return jsonify(
-    #    message = "success", access_token = create_access_token(identity = user_id, expires_delta = False)
-    #)
-
-# @bp.route('/signin', methods=['POST'])
-# def SignIn():
-
-#     input_data = request.get_json()
-    
-#     admin_id = "qwer"
-#     admin_pw = 1234
-
-#     user_id    = input_data['user_id']
-#     user_pw    = input_data['user_pw']
-#     print(user_id, user_pw)
-#     if user_id == admin_id and user_pw == admin_pw:
-#         return jsonify({"message" : "success", 
-#                     "access_token" : create_access_token(identity = user_id, expires_delta = False)})
-    
-#     return jsonify({"message" : "Invalid_user"})
+# 해쉬화
+# signup : (None, 'parkeunhye@gmail.com', '$2b$12$mpWDDSRiEa1dImbi72R4oe46LQ4V3mB2w097jsc/cd48mvSB.ApNe')
+# signin :         parkeunhye@gmail.com $2b$12$Kp44wD.LXAkTYK6XcrjpTu6Fz2VdQUyZcT4gd7YrtJ94kFn39euTS
